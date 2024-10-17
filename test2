@@ -1,0 +1,58 @@
+
+import java.util.Scanner;
+
+public class RotatedSearch {
+
+    public static int findProductIndex(int[] productIDs, int targetID) {
+        int low = 0;               
+        int high = productIDs.length - 1;
+        while (low <= high) {
+            int midPoint = low + (high - low) / 2; 
+           
+            if (productIDs[midPoint] == targetID) {
+                return midPoint;
+            }
+
+            
+            if (productIDs[low] <= productIDs[midPoint]) { 
+                if (targetID >= productIDs[low] && targetID < productIDs[midPoint]) {
+                    high = midPoint - 1;
+                } else {
+                    low = midPoint + 1; 
+                }
+            } else { 
+                if (targetID > productIDs[midPoint] && targetID <= productIDs[high]) {
+                    low = midPoint + 1;
+                } else {
+                    high = midPoint - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+    public static void main(String[] args) {
+        int[] productIDs = {104, 105, 106, 107, 101, 102, 103};
+        Scanner scanner = new Scanner(System.in); 
+        System.out.print("Available product IDs: ");
+        for (int id : productIDs) {
+            System.out.print(id + " "); 
+        }
+        System.out.println(); 
+
+        while (true) {
+            System.out.print("Enter the product ID you want to search for (or -1 to exit): ");
+            int targetID = scanner.nextInt();
+
+            if (targetID == -1) {
+                break; 
+            }
+            int resultIndex = findProductIndex(productIDs, targetID); 
+
+            
+            System.out.println(resultIndex); 
+        }
+
+        scanner.close(); 
+    }
+}
